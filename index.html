@@ -1,0 +1,67 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tennis League</title>
+    <style>
+        .content-section { display: none; }
+        .active { display: block; }
+        .nav-button { 
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .player-card, .match-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px;
+            display: inline-block;
+            width: 200px;
+        }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>Tennis League Dashboard</h1>
+    
+    <div>
+        <button class="nav-button" onclick="showSection('players')">Show Players</button>
+        <button class="nav-button" onclick="showSection('matches')">Show Match Results</button>
+    </div>
+
+    <!-- Players Section -->
+    <div id="players" class="content-section active">
+        <h2>Players</h2>
+        {% for player in players %}
+        <div class="player-card">
+            <img src="{{ url_for('static', filename='images/' + player.image) }}" 
+                 alt="{{ player.name }}">
+            <h3>{{ player.name }}</h3>
+            <p>Skill: {{ player.skill }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Matches Section -->
+    <div id="matches" class="content-section">
+        <h2>Recent Matches</h2>
+        {% for match in matches %}
+        <div class="match-card">
+            <h3>{{ match.player1 }} vs {{ match.player2 }}</h3>
+            <p>Result: {{ match.result }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(div => {
+                div.classList.remove('active');
+            });
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
